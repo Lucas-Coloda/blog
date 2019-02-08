@@ -1,0 +1,27 @@
+{% extends "base.html"%}
+
+{% block head_title %} {{block.super}} {% endblock head_title %}
+
+{% block content %}
+<div class="col-sm-offset-1">
+	<h1 id="titulo">
+		{{ titulo }}
+	</h1>
+	<small>
+		Autor: {{objeto.autor}}
+		Última alteração: {{ objeto.lancado }}
+	</small>
+	<br><br>
+	<h5 id="sub_titulo">
+		{{ objeto.sub_titulo }}
+	</h5>
+	{% if objeto.capa %}
+	<img src="{{objeto.capa.url }}" alt=" " class="img-responsive" height="50%">
+	{% endif %}
+	<div>{{ objeto.conteudo |linebreaks }}</div>
+
+	<a class="btn btn-outline-dark" href="/posts">Home</a>
+	<a class="btn btn-outline-primary" href="\posts/{{objeto.slug}}/edit/">Edit</a>
+	<a class="btn btn-outline-danger" href="\posts/{{objeto.slug}}/delete/">Delete</a>
+</div>
+{% endblock content %}

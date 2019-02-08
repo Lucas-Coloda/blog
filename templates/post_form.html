@@ -1,0 +1,16 @@
+{% extends "base.html"%}
+
+{% block head_title %} {{block.super}} {% endblock head_title %}
+
+{% block content %}
+
+<form method="POST" action='' class="form-group" enctype="multipart/form-data">{% csrf_token %}
+	<h1> Preencha os dados: </h1>
+
+	{{formulario.as_p}}
+
+	<input class="btn btn-outline-success " type="submit" value="salvar">
+	<a class="btn btn-outline-danger" href="\posts">Cancelar</a>
+</form>
+
+{% endblock content %}

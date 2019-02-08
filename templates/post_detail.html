@@ -1,0 +1,56 @@
+{% extends "base.html"%}
+
+{% load urlify %}
+
+{% block head_title %} {{block.super}} {% endblock head_title %}
+
+{% block content %}
+<div class="col-sm-offset-1">
+	<h1 id="titulo">
+		{{ titulo }}
+	</h1>
+	<h5 id="sub_titulo">
+		{{ objeto.sub_titulo }}
+	</h5>
+	<small class="">{{ objeto.lancado }}</small>
+	<br>
+	{% if objeto.capa %}
+	<img src="{{objeto.capa.url }}" alt=" " class="img-responsive" height="50%">
+	{% endif %}
+
+	<div>{{ objeto.conteudo |linebreaks }}</div>
+	<div class="social">
+		<a target="_blank"
+		   href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+			Facebook
+		</a>
+		<a target="_blank"
+		   href="https://twitter.com/home?status={{objeto.titulo|truncatechars:80|urlify }}%20{{ request.build_absolute_uri }}">
+			Twitter
+		</a>
+		<div class="fb-like" data-href="{{request.build_absolute_uri}}" data-layout="button_count"
+		     data-action="like" data-size="small" data-show-faces="true">
+		</div>
+		<br>
+		<div class="fb-comments" data-href="{{request.build_absolute_uri}}" data-numposts="100"></div>
+	</div>
+</div>
+
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v3.2';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+
+
+
+
+
+
+
+
+</script>
+{% endblock content %}
