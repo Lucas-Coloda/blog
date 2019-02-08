@@ -4,10 +4,11 @@ from django.shortcuts import render, get_object_or_404, redirect, Http404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .forms import PostForm
 from .models import Post
+from django.utils import timezone
 
 
 def post_list(request):
-    queryset_list = Post.objects.all().order_by("-atualizado")
+    queryset_list = Post.objects.filter(rascunho=False).filter(publish__lte=timezone.now()).order_by("-atualizado")
     paginator = Paginator(queryset_list, 10)
 
     page = request.GET.get('pag')

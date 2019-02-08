@@ -12,5 +12,5 @@ class PostForm(forms.ModelForm):
             "capa",
             "conteudo",
             "rascunho",
-            "publicado",
+            "publish",
         ]

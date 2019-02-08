@@ -29,7 +29,7 @@ class Post(models.Model):
         blank=True,
     )
     rascunho = models.BooleanField(default=False)
-    publicado = models.DateField(auto_now=False, auto_now_add=False)
+    publish = models.DateField(auto_now=False, auto_now_add=False)
     lancado = models.DateTimeField(auto_now=False, auto_now_add=True)
     atualizado = models.DateTimeField(auto_now=True, auto_now_add=False)
 
