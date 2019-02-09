@@ -4,10 +4,15 @@
 {% load staticfiles %}
 
 {% block content %}
-
-<h1>
-	{{ titulo }}
-</h1>
+<div class="nav-bar">
+	<h1>
+		{{ titulo }}
+	</h1>
+	<form method="GET" action="">
+		<input type="text" name="search" placeholder="Pesquisar post" value="{{request.GET.search}}">
+		<input type="submit" value="Ok">
+	</form>
+</div>
 
 
 <div id="container" class="container">
@@ -26,9 +31,9 @@
 			<small class="text-muted">
 				autor: {{objeto.autor}} <br>
 				Ultima atualização há {{objeto.atualizado|timesince}} <br>
-				Data de publicação: {{objeto.publicar_em}} <br>
+				Data de publicação: {{objeto.data_lancamento}} <br>
 				{% if objeto.rascunho %}
-					Salvo como rascunho
+				Salvo como rascunho
 				{% endif %}
 			</small>
 		</div>

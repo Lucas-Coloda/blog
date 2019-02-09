@@ -12,7 +12,10 @@
 	<h5 id="sub_titulo">
 		{{ objeto.sub_titulo }}
 	</h5>
-	<small class="">{{ objeto.lancado }}</small>
+	<small class="">
+		Autor: {{objeto.autor}}
+		Última alteração: {{ objeto.atualizado }}
+	</small>
 	<br>
 	{% if objeto.capa %}
 	<img src="{{objeto.capa.url }}" alt=" " class="img-responsive" height="50%">
@@ -43,6 +46,7 @@
   js.src = 'https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v3.2';
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+
 
 
 

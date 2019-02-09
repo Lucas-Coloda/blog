@@ -5,9 +5,15 @@
 
 {% block content %}
 
-<h1>
-	{{ titulo }}
-</h1>
+<div class="nav-bar">
+	<h1>
+		{{ titulo }}
+	</h1>
+	<form method="GET" action="">
+		<input type="text" name="search" placeholder="Pesquisar post" value="{{request.GET.search}}">
+		<input type="submit" value="Ok">
+	</form>
+</div>
 
 
 <div id="container" class="container">
