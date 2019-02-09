@@ -1,19 +1,32 @@
-from django.contrib import messages
+# Django imports
+from django.shortcuts import render, redirect, get_object_or_404, Http404
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect, Http404
-from .forms import PostForm
-from .models import Post
+from django.contrib import messages
+from django.db.models import Q
 from django.utils import timezone
+
+# project imports
 from blog.utils import load_pages
+from posts.forms import PostForm
+from posts.models import Post
 
 
 def post_list(request):
+    query = request.GET.get("search")
+
     if request.user.is_superuser:
         queryset_list = Post.posts.user_posts(request.user).order_by("-atualizado")
         page_html = "super_user/post_list.html"
     else:
         queryset_list = Post.posts.public().order_by("-atualizado")
         page_html = "common_user/post_list.html"
+
+    if query:
+        queryset_list = queryset_list.filter(
+            Q(titulo__icontains=query)|
+            Q(conteudo__icontains=query)|
+            Q(autor__first_name__icontains=query)
+        ).distinct()
 
     queryset = load_pages(request, queryset_list)
     context = {
@@ -32,7 +45,7 @@ def post_detail(request, post_slug):
     if request.user.is_superuser:
         return render(request, "super_user/post_detail.html", context)
     else:
-        if instancia.rascunho or instancia.data_lancamento == timezone.now():
+        if instancia.rascunho or instancia.data_lancamento > timezone.now().date():
             raise Http404
         else:
             return render(request, "common_user/post_detail.html", context)

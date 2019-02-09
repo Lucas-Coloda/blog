@@ -11,7 +11,7 @@ from django.utils import timezone
 
 class PostManager(models.Manager):
     def public(self, *args, **kwargs):
-        return super(PostManager, self).filter(rascunho=False).filter(publicar_em__lte=timezone.now())
+        return super(PostManager, self).filter(rascunho=False).filter(data_lancamento__lte=timezone.now())
 
     def user_posts(self, autor, *args, **kwargs):
         return Post.posts.filter(autor=autor).order_by("-atualizado")
@@ -58,7 +58,7 @@ def create_slug(intance, new_slug=None):
     slug = slugify(intance.titulo)
     if new_slug is not None:
         slug = new_slug
-    qs = Post.objects.filter(slug=slug).order_by("-id")
+    qs = Post.posts.filter(slug=slug).order_by("-id")
     exists = qs.exists()
     if exists:
         new_slug = "%s-%s" % (slug, qs.first().id)
