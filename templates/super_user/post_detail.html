@@ -24,4 +24,12 @@
 	<a class="btn btn-outline-primary" href="\posts/{{objeto.slug}}/edit/">Edit</a>
 	<a class="btn btn-outline-danger" href="\posts/{{objeto.slug}}/delete/">Delete</a>
 </div>
+
+<div id="info">
+	<br><br>
+	<h2>Data de publicação: {{objeto.publicar_em}}</h2>
+	{% if objeto.rascunho %}
+	<h3>Salvo como rascunho</h3>
+	{% endif %}
+</div>
 {% endblock content %}

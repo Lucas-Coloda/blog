@@ -11,32 +11,36 @@
 
 
 <div id="container" class="container">
-	<div class="row">
-		{% for objeto in lista %}
-		<div class="col-sm-6">
-			<div class="thumbnail">
-				{% if objeto.capa %}
-				<img src="{{objeto.capa.url }}" alt=" " class="img-responsive" width="100%" height="">
-				{% endif %}
-				<div class="caption">
-					<a href="\posts/{{objeto.slug}}/"><h5 class="card-title" >{{objeto.titulo}}</h5></a>
-					<p class="card-text">{{objeto.conteudo|truncatechars:150}}</p>
-				</div>
+	{% for objeto in lista %}
+	<div class="col-sm-6">
+		<div class="thumbnail">
+			{% if objeto.capa %}
+			<img src="{{objeto.capa.url }}" alt=" " class="img-responsive" width="100%" height="">
+			{% endif %}
+			<div class="caption">
+				<a href="\posts/{{objeto.slug}}/">
+					<h5 class="card-title">
+						{{objeto.titulo}}
+					</h5>
+				</a>
+				<p class="card-text">
+					{{objeto.conteudo|truncatechars:150}}
+				</p>
 			</div>
-			<div class="card-footer">
-				<small class="text-muted">autor: {{objeto.autor}} Ultima atualização há {{objeto.atualizado|timesince}}</small>
-			</div>
-
 		</div>
-	{% cycle "" "</div><div class='col-sm-12'><hr></div><div class='row'>" %}
-	{% endfor %}
-
-
+		<div class="card-footer">
+			<small class="text-muted">
+				autor: {{objeto.autor}} Ultima atualização há
+				{{objeto.atualizado|timesince}}
+			</small>
+		</div>
+		<br>
 	</div>
+	{% endfor %}
 </div>
 
 
-	<div class="pagination">
+<div class="pagination">
 
 	    <span class="step-links">
 	        {% if lista.has_previous %}
@@ -54,6 +58,6 @@
 	            <a href="?pag={{ lista.paginator.num_pages }}">Última &raquo;</a>
 	        {% endif %}
 	    </span>
-	</div>
+</div>
 
 {% endblock content %}

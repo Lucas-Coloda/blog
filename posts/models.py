@@ -2,10 +2,19 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.conf import settings
+from django.utils import timezone
 
 
 # Create your models here.
 # MVC model view conroler
+
+
+class PostManager(models.Manager):
+    def public(self, *args, **kwargs):
+        return super(PostManager, self).filter(rascunho=False).filter(publicar_em__lte=timezone.now())
+
+    def user_posts(self, autor, *args, **kwargs):
+        return Post.posts.filter(autor=autor).order_by("-atualizado")
 
 
 def upload_location(intance, filename):
@@ -29,9 +38,11 @@ class Post(models.Model):
         blank=True,
     )
     rascunho = models.BooleanField(default=False)
-    publish = models.DateField(auto_now=False, auto_now_add=False)
-    lancado = models.DateTimeField(auto_now=False, auto_now_add=True)
+    data_lancamento = models.DateField(auto_now=False, auto_now_add=False)
+    criado = models.DateTimeField(auto_now=False, auto_now_add=True)
     atualizado = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    posts = PostManager()
 
     def __str__(self):
         return self.titulo
@@ -40,7 +51,7 @@ class Post(models.Model):
         return "/posts/%s/" % self.slug
 
     class Meta:
-        ordering = ["-atualizado", "-lancado"]
+        ordering = ["-atualizado", "-criado"]
 
 
 def create_slug(intance, new_slug=None):

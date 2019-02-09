@@ -1,29 +1,26 @@
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect, Http404
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .forms import PostForm
 from .models import Post
 from django.utils import timezone
+from blog.utils import load_pages
 
 
 def post_list(request):
-    queryset_list = Post.objects.filter(rascunho=False).filter(publish__lte=timezone.now()).order_by("-atualizado")
-    paginator = Paginator(queryset_list, 10)
+    if request.user.is_superuser:
+        queryset_list = Post.posts.user_posts(request.user).order_by("-atualizado")
+        page_html = "super_user/post_list.html"
+    else:
+        queryset_list = Post.posts.public().order_by("-atualizado")
+        page_html = "common_user/post_list.html"
 
-    page = request.GET.get('pag')
-    try:
-        queryset = paginator.page(page)
-    except PageNotAnInteger:
-        queryset = paginator.page(1)
-    except EmptyPage:
-        queryset = paginator.page(paginator.num_pages)
-
+    queryset = load_pages(request, queryset_list)
     context = {
         "lista": queryset,
         "titulo": "Meus posts"
     }
-    return render(request, "post_list.html", context)
+    return render(request, page_html, context)
 
 
 def post_detail(request, post_slug):
@@ -33,9 +30,12 @@ def post_detail(request, post_slug):
         "objeto": instancia
     }
     if request.user.is_superuser:
-        return render(request, "post_detail_super_user.html", context)
+        return render(request, "super_user/post_detail.html", context)
     else:
-        return render(request, "post_detail.html", context)
+        if instancia.rascunho or instancia.data_lancamento == timezone.now():
+            raise Http404
+        else:
+            return render(request, "common_user/post_detail.html", context)
 
 
 def post_create(request):
@@ -54,7 +54,7 @@ def post_create(request):
         "titulo": "Novo post",
         "formulario": formulario
     }
-    return render(request, "post_form.html", context)
+    return render(request, "forms/post_form.html", context)
 
 
 def post_update(request, post_slug=None):
@@ -74,7 +74,7 @@ def post_update(request, post_slug=None):
         "formulario": formulario,
         "objeto": instancia
     }
-    return render(request, "post_form.html", context)
+    return render(request, "forms/post_form.html", context)
 
 
 def post_delete(request, post_slug=None):

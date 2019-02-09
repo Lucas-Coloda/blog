@@ -7,7 +7,7 @@ from posts.models import Post
 class PostModelAdmin(admin.ModelAdmin):
     list_display = ["titulo", "autor", "atualizado"]
     list_display_links = ["titulo", ]
-    list_filter = ["titulo", "lancado", "atualizado", "autor"]
+    list_filter = ["titulo", "criado", "atualizado", "autor"]
     search_fields = ["titulo", "conteudo"]
 
     class Meta:
