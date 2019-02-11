@@ -1,38 +1,26 @@
 {% extends "base.html"%}
 
 {% block head_title %} {{block.super}} {% endblock head_title %}
+
 {% load staticfiles %}
 
 {% block content %}
-
-<div class="nav-bar">
-	<h1>
-		{{ titulo }}
-	</h1>
-	<form method="GET" action="">
-		<input type="text" name="search" placeholder="Pesquisar post" value="{{request.GET.search}}">
-		<input type="submit" value="Ok">
-	</form>
-</div>
-
-
-<div id="container" class="container">
-	{% for objeto in lista %}
-	<div class="col-sm-6">
-		<div class="thumbnail">
-			{% if objeto.capa %}
-			<img src="{{objeto.capa.url }}" alt=" " class="img-responsive" width="100%" height="">
-			{% endif %}
-			<div class="caption">
-				<a href="\posts/{{objeto.slug}}/">
-					<h5 class="card-title">
-						{{objeto.titulo}}
-					</h5>
-				</a>
-				<div class="card-text content-markdown">
-					{{objeto.conteudo|truncatechars:150}}
-				</div>
-			</div>
+<h1>
+	{{ titulo }}
+</h1>
+{% for objeto in lista %}
+<div class="col-sm-6">
+	<div class="thumbnail">
+		{% if objeto.capa %}
+		<img src="{{objeto.capa.url }}" alt=" " class="img-responsive" width="100%" height="">
+		{% endif %}
+		<div class="caption">
+			<a href="\posts/{{objeto.slug}}/">
+				<h5 class="card-title">
+					{{objeto.titulo}}
+				</h5>
+			</a>
+			<p class="content-markdown">{{objeto.conteudo|truncatechars:80}}</p>
 		</div>
 		<div class="card-footer">
 			<small class="text-muted">
@@ -42,28 +30,9 @@
 		</div>
 		<br>
 	</div>
-	{% endfor %}
 </div>
+{% endfor %}
 
-
-<div class="pagination">
-
-	    <span class="step-links">
-	        {% if lista.has_previous %}
-	            <a href="?pag=1">&laquo; Primeira </a>
-
-	            <a href="?pag={{ lista.previous_page_number }}">Anterior</a>
-	        {% endif %}
-
-	        <span class="current">
-	            Página {{ lista.number }} de {{ lista.paginator.num_pages }}.
-	        </span>
-
-	        {% if lista.has_next %}
-	            <a href="?pag={{ lista.next_page_number }}">Próxima</a>
-	            <a href="?pag={{ lista.paginator.num_pages }}">Última &raquo;</a>
-	        {% endif %}
-	    </span>
-</div>
+{% include "utils/page_navigator.html" %}
 
 {% endblock content %}

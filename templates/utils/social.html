@@ -1,0 +1,18 @@
+{% load urlify %}
+<div class="social">
+	<a target="_blank"
+	   href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+		Facebook
+	</a>
+	<a target="_blank"
+	   href="https://twitter.com/home?status={{objeto.titulo|truncatechars:80|urlify }}%20{{ request.build_absolute_uri }}">
+		Twitter
+	</a>
+	<div class="fb-like" data-href="{{request.build_absolute_uri}}" data-layout="button_count"
+	     data-action="like" data-size="small" data-show-faces="true">
+	</div>
+	<br>
+	<div class="fb-comments" data-href="{{request.build_absolute_uri}}" data-numposts="100"></div>
+</div>
+{% load staticfiles %}
+<script src='{% static "/js/social.js" %}'></script>

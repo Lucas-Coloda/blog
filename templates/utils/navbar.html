@@ -1,0 +1,12 @@
+<ul class="nav">
+	<li><a href="/posts">Home</a></li>
+	<li><a href="#">About</a></li>
+	<li><a href="#">contact</a></li>
+	<li>
+		<form class="form-inline" method="GET" action="\posts">
+			<input class="form-control" type="text" name="search" placeholder="Pesquisar post"
+			       value="{{request.GET.search}}">
+			<input class="btn btn-outline-primary" type="submit" value="search">
+		</form>
+	</li>
+</ul>
