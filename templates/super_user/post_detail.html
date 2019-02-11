@@ -18,7 +18,7 @@
 	{% if objeto.capa %}
 	<img src="{{objeto.capa.url }}" alt=" " class="img-responsive" height="50%">
 	{% endif %}
-	<div>{{ objeto.conteudo |linebreaks }}</div>
+	<div class="content-markdown">{{ objeto.conteudo }}</div>
 
 	<a class="btn btn-outline-dark" href="/posts">Home</a>
 	<a class="btn btn-outline-primary" href="\posts/{{objeto.slug}}/edit/">Edit</a>

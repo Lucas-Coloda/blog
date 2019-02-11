@@ -2,6 +2,10 @@
 
 {% block head_title %} {{block.super}} {% endblock head_title %}
 
+{% block head_extra %}
+{{ formulario.media }}
+{% endblock head_extra %}
+
 {% block content %}
 
 <form method="POST" action='' class="form-group" enctype="multipart/form-data">{% csrf_token %}
